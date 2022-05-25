@@ -1,9 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
-import themeModeReducer from './reducers/darkMode'
+import { configureStore } from '@reduxjs/toolkit';
+import themeModeReducer from './reducers/darkMode';
+import product from './reducers/product';
 
 export const store = configureStore({
   reducer: {
-    themeMode : themeModeReducer,
+    themeMode: themeModeReducer,
+    product: product
   },
 })
 

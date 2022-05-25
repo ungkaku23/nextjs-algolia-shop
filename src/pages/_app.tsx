@@ -6,6 +6,9 @@ import Header from "../components/layouts/header/header";
 import Footer from "../components/layouts/Footer/footer";
 import { store } from '../components/redux/store';
 import { Provider } from 'react-redux';
+import { NextUIProvider } from '@nextui-org/react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,15 +26,28 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Provider store={store}>
-        <Header />
+        <NextUIProvider>
+          <Header />
 
-        <section
-          className={`${loading === true ? "dark:animate-none animate-Loading " : ""}main-section`}
-        >
-          <Component {...pageProps} />
-        </section>
+          <section
+            className={`${loading === true ? "dark:animate-none animate-Loading " : ""}main-section`}
+          >
+            <Component {...pageProps} />
+          </section>
 
-        <Footer />
+          <Footer />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </NextUIProvider>
       </Provider>
     </>
   );
