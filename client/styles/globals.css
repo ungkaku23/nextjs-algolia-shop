@@ -1,0 +1,167 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-text-base: #D19B22;
+    --color-text-inverted: #444444;
+    --color-text-white: #ffffff;
+    --color-text-muted: #c7d2fe;
+    --color-fill: #D19B22;
+    --color-dark: #000000;
+    --color-bgdark: #000000;
+    --color-button-accent: #ffffff;
+    --color-button-accent-hover: #eef2ff;
+    --color-button-muted: #ff7700;
+    --color-darkmode: #000000;
+    --nextui-colors-primary: #D19B22;
+    --nextui-colors-primarySolidHover: #D19B22; 
+    --nextui-colors-border: white;
+  }
+}
+
+/* Toggle B */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}
+
+.img-sepia {
+  filter: sepia(1);
+}
+
+.main-section {
+  /* min-height: calc(100vh - 151px);
+  height: 1px; */
+}
+
+@layer utilities {
+  .layout-px-3 {
+    padding-left: 8.75rem;
+    padding-right: 8.75rem;
+  }
+
+  .layout-px-2 {
+    padding-left: 4.75rem;
+    padding-right: 4.75rem;
+  }
+
+  .layout-px-1 {
+    padding-left: 2.75rem;
+    padding-right: 2.75rem;
+  }
+
+  .f-size-xl {
+    font-size: 37px;
+  }
+
+  .f-size-lg {
+    font-size: 34px
+  }
+
+  .f-size-md {
+    font-size: 16px
+  }
+
+  .f-size-sm {
+    font-size: 14px;
+  }
+
+  .mb-5 {
+    margin-bottom: 50.5px;
+  }
+}
+
+.checkbox-group label {
+  font-size: 14px !important;
+  color: black !important;
+  margin-bottom: 13px !important;
+  margin-top: 0px !important;
+}
+
+.checkbox-group .nextui-checkbox-container {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 1px;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  border: 1px solid #5F5F5F !important;
+  border-radius: 3px !important;
+}
+
+.checkbox-group .nextui-checkbox-text {
+  font-size: 14px !important;
+  color: black !important;
+}
+
+.nextui-checkbox-group-items label {
+  margin-bottom: 3px !important;
+}
+
+.nextui-input-wrapper {
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  border: 1px solid #5F5F5F !important;
+  border-radius: 6px !important;
+}
+
+.cart-num-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 101px;
+  height: 32px;
+  border: 1px solid #5F5F5F;
+  border-radius: 6px;
+  opacity: 1;
+  padding: 5px 9px;
+}
+
+.cart-num-input .nextui-input-wrapper {
+  border: none !important;
+  background: transparent !important;
+}
+
+.cart-num-input .nextui-input-wrapper .nextui-input {
+  font-size: 13px !important;
+  text-align: center !important; 
+}
+
+.m-input {
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+  border: 1px solid #5F5F5F !important;
+  border-radius: 6px !important;
+  width: 100%;
+}
+
+.m-input input {
+  width: calc(100% - 20px);
+  background: transparent !important;
+  border: none !important;
+  height: 32px;
+}
+
+.sticky-fixed {
+  background: white;
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  height: 100%;
+  top: 10px;
+  bottom: auto;
+}
+
+.fixed-bottom {
+  position: -webkit-fixed;
+  position: -moz-fixed;
+  position: -ms-fixed;
+  position: -o-fixed;
+  position: fixed;
+  bottom: 0;
+  background: white;
+}
+
+.top-shadow {
+  box-shadow: 0 -6px 9px -5px rgba(115, 115, 115, 0.65);
+}
