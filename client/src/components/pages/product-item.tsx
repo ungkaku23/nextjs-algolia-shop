@@ -17,7 +17,7 @@ interface ProductItemProps {
   onAdd: (info: any) => void;
   onUpdate: (info: any) => void;
   info: any;
- }
+}
 
 const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
 

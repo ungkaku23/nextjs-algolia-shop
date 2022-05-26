@@ -5,7 +5,8 @@ const express = require("express")
       bodyParser = require("body-parser"),
       path = require('path'),
       cors = require('cors'),
-      sleekShop = new SleekShop("https://neverland.sleekshop.net", "neverland_72tGoDd5Z3qWEiI8LMGD", "oPhX69kW2izJ2YgdNkjr", "aJ5l6s8EqKpvHcG8yD1i");
+      sleekShop = new SleekShop("https://maxundmurat.sleekshop.net", "maxundmurat_HcDbZqlx83ZKoyjyU7WT", "AJCEU136IYanex2BZRuy", "PJkHatIN4X98Agj3l41Y")
+  
 
 app.use(cors({
   origin: '*',

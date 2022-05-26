@@ -2,71 +2,78 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Checkbox } from '@nextui-org/react';
 
-import { getProductCategories } from "../redux/reducers/product";
+import { 
+  getProductCategories, 
+  updateProductCategories 
+} from "../redux/reducers/product";
+
+import { RootState } from '../redux/store';
 
 const ProductCategories = () => {
 
   const dispatch = useDispatch();
 
-  const [categories, setCategories] = useState<any>([]);
+  const categories = useSelector((state: RootState) => state.product.categories);
+
+  // const [localCategories, setLocalCategories] = useState<any>([]);
   const [extCategories, setExtCategories] = useState<any>({});
 
   useEffect(() => {
-    dispatch(getProductCategories());
+    dispatch(getProductCategories(0));
   }, []);
 
   useEffect(() => {
-    setCategories([
-      {
-        label: "Main Course",
-        children: [
-          {
-            label: "Pasta",
-            value: "pasta"
-          }, {
-            label: "Pizza",
-            value: "pizza"
-          }, {
-            label: "Bowls",
-            value: "bowls"
-          }
-        ],
-        value: [],
-        isOpened: true
-      }, {
-        label: "Breakfast",
-        children: [
-          {
-            label: "Bread",
-            value: "bread"
-          }, {
-            label: "Hamburger",
-            value: "hamburger"
-          }, {
-            label: "Anzuki Ramyon",
-            value: "anzuki-ramyon"
-          }
-        ],
-        value: [],
-        isOpened: false
-      }, {
-        label: "Buffet",
-        children: [
-          {
-            label: "Kit Buffet",
-            value: "kit-buffet"
-          }, {
-            label: "Roaliza",
-            value: "roaliza"
-          }, {
-            label: "Beliow",
-            value: "beliow"
-          }
-        ],
-        value: [],
-        isOpened: false
-      }
-    ]);
+    // setCategories([
+    //   {
+    //     label: "Main Course",
+    //     children: [
+    //       {
+    //         label: "Pasta",
+    //         value: "pasta"
+    //       }, {
+    //         label: "Pizza",
+    //         value: "pizza"
+    //       }, {
+    //         label: "Bowls",
+    //         value: "bowls"
+    //       }
+    //     ],
+    //     value: [],
+    //     isOpened: true
+    //   }, {
+    //     label: "Breakfast",
+    //     children: [
+    //       {
+    //         label: "Bread",
+    //         value: "bread"
+    //       }, {
+    //         label: "Hamburger",
+    //         value: "hamburger"
+    //       }, {
+    //         label: "Anzuki Ramyon",
+    //         value: "anzuki-ramyon"
+    //       }
+    //     ],
+    //     value: [],
+    //     isOpened: false
+    //   }, {
+    //     label: "Buffet",
+    //     children: [
+    //       {
+    //         label: "Kit Buffet",
+    //         value: "kit-buffet"
+    //       }, {
+    //         label: "Roaliza",
+    //         value: "roaliza"
+    //       }, {
+    //         label: "Beliow",
+    //         value: "beliow"
+    //       }
+    //     ],
+    //     value: [],
+    //     isOpened: false
+    //   }
+    // ]);
 
     setExtCategories({
       label: "",
@@ -88,7 +95,7 @@ const ProductCategories = () => {
 
   const updateCategories = (label: any, fieldName: string, fieldValue: any) => {
     let temp = Object.assign([], categories);
-    setCategories(temp.map((t: any) => {
+    dispatch(updateProductCategories(temp.map((t: any) => {
       if (t.label === label) {
         return {
           ...t,
@@ -97,7 +104,7 @@ const ProductCategories = () => {
       }
 
       return t;
-    }));
+    })));
   }
 
   const updateExtCategories = (fieldName: string, fieldValue: any) => {
@@ -128,7 +135,10 @@ const ProductCategories = () => {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      onClick={() => { updateCategories(o.label, "isOpened", !o.isOpened); }}
+                      onClick={() => { 
+                        updateCategories(o.label, "isOpened", !o.isOpened); 
+                        dispatch(getProductCategories(o.id));
+                      }}
                     >
                       <use href={`/static/svg/feather-sprite.svg#${o.isOpened ? "chevron-down" : "chevron-right"}`}/>
                     </svg>
@@ -136,7 +146,10 @@ const ProductCategories = () => {
                       <div 
                         className="f-size-sm cursor-pointer hover:text-skin-base"
                         style={{marginBottom: o.isOpened ? "13px" : "0px"}}
-                        onClick={() => { updateCategories(o.label, "isOpened", !o.isOpened); }}
+                        onClick={() => { 
+                          updateCategories(o.label, "isOpened", !o.isOpened); 
+                          dispatch(getProductCategories(o.id));
+                        }}
                       >
                         {o.label}
                       </div>
