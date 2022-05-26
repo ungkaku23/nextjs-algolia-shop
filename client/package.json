@@ -1,0 +1,33 @@
+{
+  "name": "maxundmurat-shop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@nextui-org/react": "^1.0.0-beta.7",
+    "@reduxjs/toolkit": "^1.6.2",
+    "axios": "^0.27.2",
+    "eslint": "^7.32.0",
+    "feather-icons": "^4.29.0",
+    "next": "^12.0.0",
+    "react": "^17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.6",
+    "react-toastify": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.13",
+    "@types/react": "17.0.33",
+    "autoprefixer": "^10.3.7",
+    "eslint-config-next": "12.0.0",
+    "postcss": "^8.3.11",
+    "tailwind-bootstrap-grid": "^5.0.1",
+    "tailwindcss": "^2.2.17",
+    "typescript": "4.4.4"
+  }
+}
