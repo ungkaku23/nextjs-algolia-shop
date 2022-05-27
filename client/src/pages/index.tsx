@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Head from 'next/head';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../components/redux/store';
-import { addCart } from "../components/redux/reducers/product";
+import { 
+  addCart,
+  updateProducts
+} from "../components/redux/reducers/product";
 import { 
   Grid
 } from '@nextui-org/react';
@@ -19,7 +22,8 @@ export default function Home() {
   const [localCart, setLocalCart] = useState<any>([]);
 
   const displayMode = useSelector((state: RootState) => state.product.displayMode);
-  const [products, setProducts] = useState<any>([]);
+
+  const products = useSelector((state: RootState) => state.product.products);
 
   useEffect(() => {
     if (JSON.stringify(localCart) !== JSON.stringify(cart)) {
@@ -35,18 +39,6 @@ export default function Home() {
       });
     }
   }, [cart]);
-
-  useEffect(() => {
-    for(let i = 0; i < 10; i++) {
-      products.push({
-        id: i,
-        img: "/static/img/cdr.png",
-        title: "Gefüllte Auberginen gefüllt mit Tofuwürfel",
-        price: 90,
-        quantity: 3
-      });
-    }
-  }, []);
 
   return (
     <div className="h-full py-7 bg-white dark:bg-gray-900">
@@ -81,7 +73,7 @@ export default function Home() {
                               dispatch(addCart(info));
                             }} 
                             onUpdate={(info: any) => {
-                              setProducts(products.map((p: any) => p.id === info.id ? info : p));
+                              dispatch(updateProducts(products.map((p: any) => p.id === info.id ? info : p)));
                             }}
                           />
                         </Grid>

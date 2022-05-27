@@ -22,12 +22,34 @@ export const getProductCategories = createAsyncThunk(
   }
 );
 
+// This action is what we will call using the dispatch in order to trigger the API call.
+export const getProductsInCategory = createAsyncThunk(
+  'product/ProductsInCategory', 
+  async (diffs: any) => {
+    if (diffs.isAdded) {
+      const response = await axios.post('http://localhost:8080/sleekshop', {
+        invoke: `sleekShop.categories.getProductsInCategory(${diffs.value}, "en_EN", "US", "price", "DESC", 0, 10, ["name", "price"])`
+      });
+
+      return {
+        data: response.data,
+        categoryId: diffs.value
+      };
+    } else {
+      return {
+        categoryId: diffs.value
+      };
+    }
+  }
+);
+
 export const product = createSlice({
   name: "product",
   initialState: {
     cart: [],
     displayMode: 'grid',
-    categories: []
+    categories: [],
+    products: []
   },
   reducers: {
     addCart: (state, action) => {
@@ -46,6 +68,9 @@ export const product = createSlice({
     },
     updateProductCategories: (state, action) => {
       state.categories = action.payload;
+    },
+    updateProducts: (state, action) => {
+      state.products = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -70,7 +95,8 @@ export const product = createSlice({
                 children: action.payload.data.categories.map((c: any) => {
                   return {
                     label: c.label,
-                    value: c.label
+                    value: c.label,
+                    id: c.id
                   };
                 })
               };
@@ -81,7 +107,28 @@ export const product = createSlice({
           state.categories = temp;
         }
       }
-    })
+    });
+
+    builder.addCase(getProductsInCategory.fulfilled, (state, action) => {
+      let products: any = Object.assign([], state.products);
+
+      if (action.payload.hasOwnProperty("data")) {
+        if (action.payload.data.object === "products_in_category") {
+          for (let key in action.payload.data.products) {
+            products.push({
+              category_id: action.payload.categoryId,
+              ...action.payload.data.products[key]
+            });
+          }
+        }
+      } else {
+        products = products.filter((o: any) => o.category_id !== action.payload.categoryId);
+      }
+
+      console.log('products: ', products);
+
+      state.products = products;
+    });
   },
 });
 
@@ -89,7 +136,8 @@ export const product = createSlice({
 export const { 
   addCart,
   changeDisplayMode,
-  updateProductCategories
+  updateProductCategories,
+  updateProducts
 } = product.actions;
 
 export default product.reducer;

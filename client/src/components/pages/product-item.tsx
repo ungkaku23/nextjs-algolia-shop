@@ -66,10 +66,10 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
               css={{ lineHeight: "$sm" }}
               b
             >
-              {localInfo.title}
+              {localInfo.name}
             </AnyText>
             <AnyText className="f-size-sm mb-1">
-              {localInfo.price} € plus VAT
+              {localInfo.attributes?.price?.value} € plus VAT
             </AnyText>
             <Grid.Container 
               gap={1} 
@@ -86,7 +86,10 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: localInfo.quantity === 0 ? 0 : localInfo.quantity - 1
+                      availability: {
+                        ...localInfo["availability"],
+                        quantity: parseInt(localInfo.availability.quantity) - 1
+                      }
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -96,11 +99,14 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                 </AnyText>
                 <Input
                   bordered={false}
-                  value={info.quantity}
+                  value={parseInt(info.availability.quantity)}
                   onChange={(e) => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: e.target.value === "" ? 0 : parseInt(e.target.value)
+                      availability: {
+                        ...localInfo["availability"],
+                        quantity: e.target.value === "" ? 0 : parseInt(e.target.value)
+                      }
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -112,7 +118,10 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: localInfo.quantity === 0 ? 0 : localInfo.quantity + 1
+                      availability: {
+                        ...localInfo["availability"],
+                        quantity: parseInt(localInfo.availability.quantity) + 1
+                      }
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);

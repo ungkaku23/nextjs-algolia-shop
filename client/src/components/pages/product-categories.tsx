@@ -4,10 +4,14 @@ import { Checkbox } from '@nextui-org/react';
 
 import { 
   getProductCategories, 
-  updateProductCategories 
+  updateProductCategories,
+  getProductsInCategory
 } from "../redux/reducers/product";
 
 import { RootState } from '../redux/store';
+import { getDiffs } from "../redux/helper";
+
+const _ = require("lodash");
 
 const ProductCategories = () => {
 
@@ -15,8 +19,9 @@ const ProductCategories = () => {
 
   const categories = useSelector((state: RootState) => state.product.categories);
 
-  // const [localCategories, setLocalCategories] = useState<any>([]);
+  const [prevCategories, setPrevCategories] = useState<any>([]);
   const [extCategories, setExtCategories] = useState<any>({});
+  const [diffs, setDiffs] = useState<any>({});
 
   useEffect(() => {
     dispatch(getProductCategories(0));
@@ -75,6 +80,10 @@ const ProductCategories = () => {
     //   }
     // ]);
 
+    // useEffect(() => {
+    //   dispatch(getProductCategories(0));
+    // }, [categories]);
+
     setExtCategories({
       label: "",
       children: [
@@ -93,10 +102,22 @@ const ProductCategories = () => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log('deeee: ', diffs);
+    if (diffs.hasOwnProperty("value") && diffs.value !== undefined) {
+      dispatch(getProductsInCategory(diffs));
+      setDiffs({});
+    }
+  }, [categories])
+
   const updateCategories = (label: any, fieldName: string, fieldValue: any) => {
     let temp = Object.assign([], categories);
     dispatch(updateProductCategories(temp.map((t: any) => {
       if (t.label === label) {
+        setDiffs({
+          value: getDiffs(t.value, fieldValue)[0],
+          isAdded: fieldValue.length > t.value.length
+        });
         return {
           ...t,
           [fieldName]: fieldValue
@@ -166,7 +187,7 @@ const ProductCategories = () => {
                           ? o.children.map((c: any, idx: any) => {
                             return <Checkbox 
                                       key={`cb${cgIdx}${idx}`}
-                                      value={c.value}
+                                      value={c.id}
                                       size="sm" 
                                       color="primary"
                                     >
