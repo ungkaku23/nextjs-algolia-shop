@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from "react";
+import { connectSearchBox } from "react-instantsearch-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../redux/store';
 import { changeDisplayMode } from "../redux/reducers/product";
 import { Grid, Input } from '@nextui-org/react';
 import MInput from "../widget/minput";
+import ProductSearchHits from "./product-search-hits";
 
-const ProductSearchTool = () => {
+interface ProductSearchToolProps {
+  refine: (info: any) => void;
+}
+
+const ProductSearchTool = ({ refine }: ProductSearchToolProps) => {
 
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState<any>("");
   const displayMode = useSelector((state: RootState) => state.product.displayMode);
+
+  const AnyProductSearchHits = ProductSearchHits as any;
   
   return (
     <>
       <Grid.Container gap={2} justify="center">
-        <Grid xl={8} lg={7} md={6} sm={12} xs={12}>
+        <Grid xl={8} lg={7} md={6} sm={12} xs={12} className="relative">
           <MInput 
             value={keyword}
             type="text"
             className="flex items-center px-2 f-size-sm"
             css={{}}
             onChange={(e) => {
-              setKeyword(e.target.value)
+              setKeyword(e.target.value);
+              refine(e.target.value);
             }}
             isIcon={true}
             icon={
@@ -39,6 +48,7 @@ const ProductSearchTool = () => {
               </svg>
             }
           />
+          <AnyProductSearchHits />
         </Grid>
         <Grid xl={4} lg={5} md={6} sm={12} xs={12}>
           <div className="flex items-center justify-end w-full">
@@ -109,4 +119,4 @@ const ProductSearchTool = () => {
   );
 };
 
-export default ProductSearchTool;
+export default connectSearchBox(ProductSearchTool);

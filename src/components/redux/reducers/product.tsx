@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { 
+import {
   createAsyncThunk,
-  createSlice 
+  createSlice
 } from "@reduxjs/toolkit";
 import axios from "axios";
 import { transformDataToSearchable } from "../helper";
@@ -9,8 +9,20 @@ import { transformDataToSearchable } from "../helper";
 const _ = require("lodash");
 
 // This action is what we will call using the dispatch in order to trigger the API call.
+export const updateAlogliaStorage = createAsyncThunk(
+  'product/AlgoliaStorage',
+  async (products: any) => {
+    const response = await axios.post('/api/algolia', { products });
+
+    return {
+      data: response.data
+    };
+  }
+);
+
+// This action is what we will call using the dispatch in order to trigger the API call.
 export const getProductCategories = createAsyncThunk(
-  'product/ProductCategories', 
+  'product/ProductCategories',
   async (parentId: number) => {
     const response = await axios.post('/api/sleekshop', {
       invoke: `sleekShop.categories.getCategories(${parentId}, "en_EN")`
@@ -25,7 +37,7 @@ export const getProductCategories = createAsyncThunk(
 
 // This action is what we will call using the dispatch in order to trigger the API call.
 export const getProductsInCategory = createAsyncThunk(
-  'product/ProductsInCategory', 
+  'product/ProductsInCategory',
   async (diffs: any) => {
     if (diffs.isAdded) {
       const response = await axios.post('/api/sleekshop', {
@@ -127,16 +139,19 @@ export const product = createSlice({
       } else {
         products = products.filter((o: any) => o.category_id !== action.payload.categoryId);
       }
-
+      
       console.log('products: ', products);
-
       state.products = products;
+    });
+
+    builder.addCase(updateAlogliaStorage.fulfilled, (state, action) => {
+      console.log("algolia done: ", action.payload);
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { 
+export const {
   addCart,
   changeDisplayMode,
   updateProductCategories,

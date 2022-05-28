@@ -19,6 +19,7 @@ export const transformDataToSearchable = (item: any) => {
   return {
     category_id: item.category_id,
     categories: item.categories.map((o: any) => o.label),
+    objectID: item.id,
     id: item.id,
     name: item.name,
     creation_date: item.creation_date,

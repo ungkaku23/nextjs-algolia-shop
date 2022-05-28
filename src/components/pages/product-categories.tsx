@@ -28,10 +28,6 @@ const ProductCategories = () => {
   }, []);
 
   useEffect(() => {
-    // useEffect(() => {
-    //   dispatch(getProductCategories(0));
-    // }, [categories]);
-
     setExtCategories({
       label: "",
       children: [
