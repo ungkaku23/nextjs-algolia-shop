@@ -11,7 +11,7 @@ const _ = require("lodash");
 export const getProductCategories = createAsyncThunk(
   'product/ProductCategories', 
   async (parentId: number) => {
-    const response = await axios.post('http://localhost:8080/sleekshop', {
+    const response = await axios.post('/api/sleekshop', {
       invoke: `sleekShop.categories.getCategories(${parentId}, "en_EN")`
     });
 
@@ -27,7 +27,7 @@ export const getProductsInCategory = createAsyncThunk(
   'product/ProductsInCategory', 
   async (diffs: any) => {
     if (diffs.isAdded) {
-      const response = await axios.post('http://localhost:8080/sleekshop', {
+      const response = await axios.post('/api/sleekshop', {
         invoke: `sleekShop.categories.getProductsInCategory(${diffs.value}, "en_EN", "US", "price", "DESC", 0, 10, ["name", "price"])`
       });
 

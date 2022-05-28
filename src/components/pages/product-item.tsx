@@ -58,8 +58,8 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
         </Card.Body>
         <Card.Footer css={{ p: "12px 5px" }}>
           <AnyRow 
-            wrap="wrap" 
-            justify="space-between"
+            wrap="wrap"
+            className="flex-col" 
           >
             <AnyText
               className="f-size-sm mb-2" 
@@ -88,7 +88,9 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                       ...localInfo,
                       availability: {
                         ...localInfo["availability"],
-                        quantity: parseInt(localInfo.availability.quantity) - 1
+                        quantity: parseInt(localInfo.availability.quantity) > 0 
+                          ? parseInt(localInfo.availability.quantity) - 1 
+                          : parseInt(localInfo.availability.quantity)
                       }
                     };
                     setLocalInfo(newLocalInfo);

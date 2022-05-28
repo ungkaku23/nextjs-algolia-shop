@@ -28,58 +28,6 @@ const ProductCategories = () => {
   }, []);
 
   useEffect(() => {
-    // setCategories([
-    //   {
-    //     label: "Main Course",
-    //     children: [
-    //       {
-    //         label: "Pasta",
-    //         value: "pasta"
-    //       }, {
-    //         label: "Pizza",
-    //         value: "pizza"
-    //       }, {
-    //         label: "Bowls",
-    //         value: "bowls"
-    //       }
-    //     ],
-    //     value: [],
-    //     isOpened: true
-    //   }, {
-    //     label: "Breakfast",
-    //     children: [
-    //       {
-    //         label: "Bread",
-    //         value: "bread"
-    //       }, {
-    //         label: "Hamburger",
-    //         value: "hamburger"
-    //       }, {
-    //         label: "Anzuki Ramyon",
-    //         value: "anzuki-ramyon"
-    //       }
-    //     ],
-    //     value: [],
-    //     isOpened: false
-    //   }, {
-    //     label: "Buffet",
-    //     children: [
-    //       {
-    //         label: "Kit Buffet",
-    //         value: "kit-buffet"
-    //       }, {
-    //         label: "Roaliza",
-    //         value: "roaliza"
-    //       }, {
-    //         label: "Beliow",
-    //         value: "beliow"
-    //       }
-    //     ],
-    //     value: [],
-    //     isOpened: false
-    //   }
-    // ]);
-
     // useEffect(() => {
     //   dispatch(getProductCategories(0));
     // }, [categories]);
@@ -103,7 +51,6 @@ const ProductCategories = () => {
   }, []);
 
   useEffect(() => {
-    console.log('deeee: ', diffs);
     if (diffs.hasOwnProperty("value") && diffs.value !== undefined) {
       dispatch(getProductsInCategory(diffs));
       setDiffs({});

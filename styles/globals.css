@@ -150,6 +150,7 @@ input:checked ~ .dot {
   height: 100%;
   top: 10px;
   bottom: auto;
+  z-index: 2;
 }
 
 .fixed-bottom {
