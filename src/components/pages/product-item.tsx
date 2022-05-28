@@ -66,10 +66,10 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
               css={{ lineHeight: "$sm" }}
               b
             >
-              {localInfo.name}
+              {localInfo?.name}
             </AnyText>
             <AnyText className="f-size-sm mb-1">
-              {localInfo.attributes?.price?.value} € plus VAT
+              {localInfo?.price} € plus VAT
             </AnyText>
             <Grid.Container 
               gap={1} 
@@ -86,12 +86,9 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      availability: {
-                        ...localInfo["availability"],
-                        quantity: parseInt(localInfo.availability.quantity) > 0 
-                          ? parseInt(localInfo.availability.quantity) - 1 
-                          : parseInt(localInfo.availability.quantity)
-                      }
+                      quantity: parseInt(localInfo.quantity) > 0 
+                                ? parseInt(localInfo.quantity) - 1 
+                                : parseInt(localInfo.quantity)
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -101,14 +98,11 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                 </AnyText>
                 <Input
                   bordered={false}
-                  value={parseInt(info.availability.quantity)}
+                  value={localInfo.quantity ? localInfo.quantity : 0}
                   onChange={(e) => {
                     let newLocalInfo = {
                       ...localInfo,
-                      availability: {
-                        ...localInfo["availability"],
-                        quantity: e.target.value === "" ? 0 : parseInt(e.target.value)
-                      }
+                      quantity: e.target.value === "" ? 0 : parseInt(e.target.value)
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -120,10 +114,7 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      availability: {
-                        ...localInfo["availability"],
-                        quantity: parseInt(localInfo.availability.quantity) + 1
-                      }
+                      quantity: parseInt(localInfo.quantity) + 1
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);

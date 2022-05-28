@@ -4,6 +4,7 @@ import {
   createSlice 
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { transformDataToSearchable } from "../helper";
 
 const _ = require("lodash");
 
@@ -28,7 +29,7 @@ export const getProductsInCategory = createAsyncThunk(
   async (diffs: any) => {
     if (diffs.isAdded) {
       const response = await axios.post('/api/sleekshop', {
-        invoke: `sleekShop.categories.getProductsInCategory(${diffs.value}, "en_EN", "US", "price", "DESC", 0, 10, ["name", "price"])`
+        invoke: `sleekShop.categories.getProductsInCategory(${diffs.value}, "en_EN", "US", "price", "DESC", 0, 500, [])`
       });
 
       return {
@@ -115,10 +116,12 @@ export const product = createSlice({
       if (action.payload.hasOwnProperty("data")) {
         if (action.payload.data.object === "products_in_category") {
           for (let key in action.payload.data.products) {
-            products.push({
-              category_id: action.payload.categoryId,
-              ...action.payload.data.products[key]
-            });
+            products.push(
+              transformDataToSearchable({
+                category_id: action.payload.categoryId,
+                ...action.payload.data.products[key]
+              })
+            );
           }
         }
       } else {
