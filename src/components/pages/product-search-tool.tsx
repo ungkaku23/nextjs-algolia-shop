@@ -7,17 +7,47 @@ import { Grid, Input } from '@nextui-org/react';
 import MInput from "../widget/minput";
 import ProductSearchHits from "./product-search-hits";
 
+import $ from "jquery";
+
 interface ProductSearchToolProps {
   refine: (info: any) => void;
+  doLocalFilter: () => void;
 }
 
-const ProductSearchTool = ({ refine }: ProductSearchToolProps) => {
+const ProductSearchTool = ({ refine, doLocalFilter }: ProductSearchToolProps) => {
 
   const dispatch = useDispatch();
   const [keyword, setKeyword] = useState<any>("");
   const displayMode = useSelector((state: RootState) => state.product.displayMode);
 
   const AnyProductSearchHits = ProductSearchHits as any;
+
+  const [showHits, setShowHits] = useState<any>(false);
+
+  const handleSearchBoxEvent = () => {
+    const concernedElement: any = document.querySelector(".nv-instant-search-box");
+
+    document.addEventListener("mousedown", (event: any) => {
+      if (concernedElement.contains(event.target)) {
+        setShowHits(true);
+      } else {
+        setTimeout(() => {
+          setShowHits(false);
+        }, 100);
+      }
+    });
+
+    $('.nv-instant-search-box .m-input-widget').keyup(function(e: any){
+      if(e.keyCode == 13) {
+        doLocalFilter();
+        setShowHits(false);
+      }
+    });
+  }
+
+  useEffect(() => {
+    handleSearchBoxEvent();
+  }, []);
   
   return (
     <>
@@ -26,16 +56,25 @@ const ProductSearchTool = ({ refine }: ProductSearchToolProps) => {
           <MInput 
             value={keyword}
             type="text"
-            className="flex items-center px-2 f-size-sm"
+            className="flex items-center px-2 f-size-sm nv-instant-search-box"
             css={{}}
             onChange={(e) => {
               setKeyword(e.target.value);
               refine(e.target.value);
             }}
+            onUpdate={(obj) => {
+              if (obj.hasOwnProperty("clear") && obj.clear) {
+                setShowHits(false);
+                refine("");
+                setKeyword("");
+                $('.nv-instant-search-box .m-input-widget').val("");
+                doLocalFilter();
+              }
+            }}
             isIcon={true}
             icon={
               <svg
-                className="text-skin-dark"
+                className="text-skin-dark cursor-pointer"
                 width="20"
                 height="20"
                 fill="none"
@@ -48,7 +87,7 @@ const ProductSearchTool = ({ refine }: ProductSearchToolProps) => {
               </svg>
             }
           />
-          <AnyProductSearchHits />
+          {showHits ? <AnyProductSearchHits onClickItem={(info: any) => {doLocalFilter()}}/> : null}
         </Grid>
         <Grid xl={4} lg={5} md={6} sm={12} xs={12}>
           <div className="flex items-center justify-end w-full">

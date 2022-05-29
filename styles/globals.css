@@ -196,7 +196,7 @@ input:checked ~ .dot {
   border: none;
   border-radius: 6px;
   width: 100%;
-  height: 65px;
+  /* height: 65px; */
   margin: auto;
   margin-top: 0px;
   margin-bottom: 10px;
@@ -212,4 +212,29 @@ input:checked ~ .dot {
 
 .nv-search-highlight {
   background: gray;
+}
+
+.algolia-category-item {
+  font-size: 12px;
+  background: #e0d6d6;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.loading-container {
+  width: 100%;
+  height: 100vh;
+  background: #ffffffb3;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -131px;
+  z-index: 10;
+}
+
+.nextui-loading-label {
+  color: #D19B22;
 }

@@ -13,8 +13,10 @@ import {
   InstantSearch
 } from 'react-instantsearch-dom';
 import { 
-  Grid
+  Grid,
+  Loading
 } from '@nextui-org/react';
+import $ from "jquery";
 import ProductCategories from "../components/pages/product-categories";
 import ProductSearchTool from "../components/pages/product-search-tool";
 import ProductDeliveryDetails from "../components/pages/product-delivery-details";
@@ -29,6 +31,7 @@ export default function Home() {
 
   const AnyProductSearchTool = ProductSearchTool as any;
   const AnyInstantSearch = InstantSearch as any;
+  const AnyLoading = Loading as any;
 
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.product.cart);
@@ -38,6 +41,10 @@ export default function Home() {
   const [localProducts, setLocalProducts] = useState<any>([]);
 
   const displayMode = useSelector((state: RootState) => state.product.displayMode);
+
+  const [keyword, setKeyword] = useState<any>([]);
+
+  const loadingStatus = useSelector((state: RootState) => state.product.loadingStatus);
 
   useEffect(() => {
     if (JSON.stringify(localCart) !== JSON.stringify(cart)) {
@@ -66,8 +73,26 @@ export default function Home() {
     }
   }, [products]);
 
+  const doLocalFilter = () => {
+    console.log('hey filter');
+    setKeyword($('.nv-instant-search-box .m-input-widget').val());
+  }
+
   return (
     <div className="h-full py-7 bg-white dark:bg-gray-900">
+      {
+        loadingStatus !== ""
+        ? <div className="loading-container">
+            <AnyLoading 
+              type="default" 
+              size="md"
+              text="default"
+            >
+              {loadingStatus}...
+            </AnyLoading>
+          </div>
+        : null
+      }
       <div className="container max-w-none md:layout-px-1 lg:layout-px-2 xl:layout-px-3">
         <div className="row g-1 mb-5">
           <div className="sm:col-12 md:col-4">
@@ -81,11 +106,12 @@ export default function Home() {
           </div>
           <div className="sm:col-12 md:col-8">
             <AnyInstantSearch searchClient={searchClient} indexName="maxundmurat_shop">
-              <AnyProductSearchTool />
+              <AnyProductSearchTool doLocalFilter={doLocalFilter} />
             </AnyInstantSearch>
             <Grid.Container className="mt-1" gap={2} justify="flex-start">
               {
-                products.map((p: any, pIdx: number) => {
+                products.filter((f: any) => (f.name && f.name.includes(keyword)) || (f.description && f.description.includes(keyword)))
+                .map((p: any, pIdx: number) => {
                   return <Grid 
                           key={`product${pIdx}`} 
                           xs={displayMode === "grid" ? 6 : 12} 

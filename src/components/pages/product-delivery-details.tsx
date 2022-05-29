@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState } from '../redux/store';
 import { 
   Grid,
   Text,
@@ -9,7 +10,20 @@ import MInput from "../widget/minput";
 
 const ProductDeliveryDetails = () => {
 
+  const cart = useSelector((state: RootState) => state.product.cart);
+  const [cartInfo, setCartInfo] = useState<any>({});
+
   const AnyText = Text as any;
+
+  useEffect(() => {
+    let totalCount = cart.reduce((sum: any, o: any) => sum + o.quantity, 0);
+    let totalPrice = cart.reduce((sum: any, o: any) => sum + o.quantity * o.price, 0);
+
+    setCartInfo({
+      totalCount,
+      totalPrice
+    });
+  }, [cart]);
   
   return (
     <>
@@ -42,6 +56,7 @@ const ProductDeliveryDetails = () => {
                 <use href={`/static/svg/feather-sprite.svg#globe`}/>
               </svg>
             }
+            onUpdate={(o: any) => {}}
           />
           <MInput 
             value={"15"}
@@ -66,6 +81,7 @@ const ProductDeliveryDetails = () => {
                 <use href={`/static/svg/feather-sprite.svg#users`}/>
               </svg>
             }
+            onUpdate={(o: any) => {}}
           />
           <MInput 
             value={"20.01.2022"}
@@ -90,6 +106,7 @@ const ProductDeliveryDetails = () => {
                 <use href={`/static/svg/feather-sprite.svg#calendar`}/>
               </svg>
             }
+            onUpdate={(o: any) => {}}
           />
           <MInput 
             value={"20:01"}
@@ -114,6 +131,7 @@ const ProductDeliveryDetails = () => {
                 <use href={`/static/svg/feather-sprite.svg#clock`}/>
               </svg>
             }
+            onUpdate={(o: any) => {}}
           />
         </Grid>
         <Grid 
@@ -121,8 +139,8 @@ const ProductDeliveryDetails = () => {
           xs={12} sm={12} md={4} lg={4}
         >
           <div className="mr-3">
-            <AnyText className="f-size-sm">20 Products in Shopping Cart</AnyText>
-            <AnyText className="f-size-sm"><strong>150</strong> plus VAT</AnyText>
+            <AnyText className="f-size-sm">{cartInfo?.totalCount} Products in Shopping Cart</AnyText>
+            <AnyText className="f-size-sm"><strong>{cartInfo?.totalPrice}</strong> plus VAT</AnyText>
           </div>
           <div>
             <Button 

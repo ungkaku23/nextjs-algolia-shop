@@ -24,20 +24,27 @@ export default async function handler(
         'name',
         'class',
         'description',
-        'tags'
-      ],
-      attributesToHighlight: [
-        'name',
-        'description'
+        'tags',
+        'name_suffixes'
       ],
       highlightPreTag: '<em class="nv-search-highlight">',
       highlightPostTag: '</em>',
       queryType: 'prefixAll'
     });
 
-    console.log('will save to aloglia: ', req.body.products);
+    const formattedData = req.body.products.map((o: any) => {
+      let name = o.name;
+      o.name_suffixes = [];
 
-    const algoliaResponse = await index.replaceAllObjects(req.body.products);
+      while (name && name.length > 1) {
+        name = name.substr(1);
+        o.name_suffixes.push(name);
+      }
+
+      return o;
+    });
+
+    const algoliaResponse = await index.replaceAllObjects(formattedData);
 
     res.json(algoliaResponse);
   } catch (error) {

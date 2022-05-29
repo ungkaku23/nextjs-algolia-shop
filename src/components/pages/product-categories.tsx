@@ -28,22 +28,22 @@ const ProductCategories = () => {
   }, []);
 
   useEffect(() => {
-    setExtCategories({
-      label: "",
-      children: [
-        {
-          label: "Vegetarian",
-          value: "vegetarian"
-        }, {
-          label: "Vegan",
-          value: "vegan"
-        }, {
-          label: "Gluten Free",
-          value: "gluten-free"
-        }
-      ],
-      value: []
-    });
+    // setExtCategories({
+    //   label: "",
+    //   children: [
+    //     {
+    //       label: "Vegetarian",
+    //       value: "vegetarian"
+    //     }, {
+    //       label: "Vegan",
+    //       value: "vegan"
+    //     }, {
+    //       label: "Gluten Free",
+    //       value: "gluten-free"
+    //     }
+    //   ],
+    //   value: []
+    // });
   }, []);
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const ProductCategories = () => {
         }} 
       />
 
-      <h4 className="f-size-sm font-medium mb-4">Diets</h4>
+      {/* <h4 className="f-size-sm font-medium mb-4">Diets</h4> */}
       <Checkbox.Group
         className="checkbox-group"
         color="secondary"

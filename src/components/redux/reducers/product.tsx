@@ -11,7 +11,9 @@ const _ = require("lodash");
 // This action is what we will call using the dispatch in order to trigger the API call.
 export const updateAlogliaStorage = createAsyncThunk(
   'product/AlgoliaStorage',
-  async (products: any) => {
+  async (products: any, thunkAPI) => {
+    thunkAPI.dispatch(product.actions.updateLoadingStatus("Loading Search Engine"));
+
     const response = await axios.post('/api/algolia', { products });
 
     return {
@@ -23,7 +25,9 @@ export const updateAlogliaStorage = createAsyncThunk(
 // This action is what we will call using the dispatch in order to trigger the API call.
 export const getProductCategories = createAsyncThunk(
   'product/ProductCategories',
-  async (parentId: number) => {
+  async (parentId: number, thunkAPI) => {
+    thunkAPI.dispatch(product.actions.updateLoadingStatus("Loading Categories"));
+
     const response = await axios.post('/api/sleekshop', {
       invoke: `sleekShop.categories.getCategories(${parentId}, "en_EN")`
     });
@@ -38,8 +42,10 @@ export const getProductCategories = createAsyncThunk(
 // This action is what we will call using the dispatch in order to trigger the API call.
 export const getProductsInCategory = createAsyncThunk(
   'product/ProductsInCategory',
-  async (diffs: any) => {
+  async (diffs: any, thunkAPI) => {
     if (diffs.isAdded) {
+      thunkAPI.dispatch(product.actions.updateLoadingStatus("Loading Products"));
+
       const response = await axios.post('/api/sleekshop', {
         invoke: `sleekShop.categories.getProductsInCategory(${diffs.value}, "en_EN", "US", "price", "DESC", 0, 500, [])`
       });
@@ -62,7 +68,8 @@ export const product = createSlice({
     cart: [],
     displayMode: 'grid',
     categories: [],
-    products: []
+    products: [],
+    loadingStatus: ""
   },
   reducers: {
     addCart: (state, action) => {
@@ -84,6 +91,9 @@ export const product = createSlice({
     },
     updateProducts: (state, action) => {
       state.products = action.payload;
+    },
+    updateLoadingStatus: (state, action) => {
+      state.loadingStatus = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -120,6 +130,7 @@ export const product = createSlice({
           state.categories = temp;
         }
       }
+      state.loadingStatus = "";
     });
 
     builder.addCase(getProductsInCategory.fulfilled, (state, action) => {
@@ -128,12 +139,14 @@ export const product = createSlice({
       if (action.payload.hasOwnProperty("data")) {
         if (action.payload.data.object === "products_in_category") {
           for (let key in action.payload.data.products) {
-            products.push(
-              transformDataToSearchable({
-                category_id: action.payload.categoryId,
-                ...action.payload.data.products[key]
-              })
-            );
+            if (_.find(products, (p: any) => p.id === action.payload.data.products[key].id) === undefined) {
+              products.push(
+                transformDataToSearchable({
+                  category_id: action.payload.categoryId,
+                  ...action.payload.data.products[key]
+                })
+              );
+            }
           }
         }
       } else {
@@ -142,10 +155,12 @@ export const product = createSlice({
       
       console.log('products: ', products);
       state.products = products;
+      state.loadingStatus = "";
     });
 
     builder.addCase(updateAlogliaStorage.fulfilled, (state, action) => {
       console.log("algolia done: ", action.payload);
+      state.loadingStatus = "";
     });
   },
 });
