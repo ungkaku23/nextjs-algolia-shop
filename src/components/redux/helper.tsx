@@ -28,6 +28,7 @@ export const transformDataToSearchable = (item: any) => {
     title: item.seo.title,
     extra_description: item.seo.description,
     keywords: item.seo.keywords,
+    quantity_of_cart: 0,
     quantity: item.availability.quantity,
     quantity_warning: item.availability.quantity_warning,
     allow_override: item.availability.allow_override,
@@ -37,4 +38,12 @@ export const transformDataToSearchable = (item: any) => {
     min_order: parseInt(item.attributes.min_order.value),
     tags: item.attributes.tags.value
   }
+}
+
+export const removeFieldOfProducts = (list: any, fieldName: any) => {
+  let temp = Object.assign([], list);
+  return temp.map((t: any) => {
+    let tt = Object.assign({}, t);
+    return delete tt[fieldName];
+  });
 }

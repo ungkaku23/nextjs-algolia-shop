@@ -1,0 +1,12 @@
+.line-progress {
+
+}
+
+.progress_item {
+  background-color: white;
+}
+
+.progress_line {
+  position: absolute;
+  height: 100%;
+}

@@ -12,14 +12,18 @@ import {
   Button,
   Input
 } from '@nextui-org/react';
+import { 
+  addCartTemporarily
+} from "../redux/reducers/product";
 
 interface ProductItemProps {
-  onAdd: (info: any) => void;
   onUpdate: (info: any) => void;
   info: any;
 }
 
-const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
+const ProductItem = ({ onUpdate, info }: ProductItemProps) => {
+
+  const dispatch = useDispatch();
 
   const [localInfo, setLocalInfo] = useState<any>({});
 
@@ -86,9 +90,9 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: parseInt(localInfo.quantity) > 0 
-                                ? parseInt(localInfo.quantity) - 1 
-                                : parseInt(localInfo.quantity)
+                      quantity_of_cart: parseInt(localInfo.quantity_of_cart) > 0 
+                                ? parseInt(localInfo.quantity_of_cart) - 1 
+                                : parseInt(localInfo.quantity_of_cart)
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -98,11 +102,11 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                 </AnyText>
                 <Input
                   bordered={false}
-                  value={localInfo.quantity ? localInfo.quantity : 0}
+                  value={localInfo.quantity_of_cart ? localInfo.quantity_of_cart : 0}
                   onChange={(e) => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: e.target.value === "" ? 0 : parseInt(e.target.value)
+                      quantity_of_cart: e.target.value === "" ? 0 : parseInt(e.target.value)
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -114,7 +118,7 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                   onClick={() => {
                     let newLocalInfo = {
                       ...localInfo,
-                      quantity: parseInt(localInfo.quantity) + 1
+                      quantity_of_cart: parseInt(localInfo.quantity_of_cart) + 1
                     };
                     setLocalInfo(newLocalInfo);
                     onUpdate(newLocalInfo);
@@ -135,7 +139,7 @@ const ProductItem = ({ onAdd, onUpdate, info }: ProductItemProps) => {
                     lineHeight: "32px"
                   }}
                   onClick={() => {
-                    onAdd(localInfo);
+                    dispatch(addCartTemporarily(localInfo));
                   }}
                 >
                   Add

@@ -4,6 +4,8 @@ import React, {
   useEffect 
 } from "react";
 
+import minputCSS from "./minput.module.css";
+
 interface MInputProps {
   onChange: (value: any) => void;
   value: any;
@@ -20,7 +22,7 @@ const MInput = ({ onChange, value, type, isIcon, icon, className, css, onUpdate 
   return (
     <>
       <div 
-        className={`m-input ${className}`}
+        className={`${minputCSS.m_input} ${className}`}
         style={css}
       >
         <input 

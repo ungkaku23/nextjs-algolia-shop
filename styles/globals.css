@@ -130,20 +130,6 @@ input:checked ~ .dot {
   text-align: center !important; 
 }
 
-.m-input {
-  background: #FFFFFF 0% 0% no-repeat padding-box !important;
-  border: 1px solid #5F5F5F !important;
-  border-radius: 6px !important;
-  width: 100%;
-}
-
-.m-input input {
-  width: calc(100% - 20px);
-  background: transparent !important;
-  border: none !important;
-  height: 32px;
-}
-
 .sticky-fixed {
   background: white;
   position: -webkit-sticky;
@@ -174,7 +160,8 @@ input:checked ~ .dot {
 .algolia-search-hits {
   position: absolute;
   top: 42px;
-  width: 93.4%;
+  left: 0.75rem;
+  width: calc(100% - 1.5rem);
   max-height: 200px;
   overflow: auto;
   z-index: 2;

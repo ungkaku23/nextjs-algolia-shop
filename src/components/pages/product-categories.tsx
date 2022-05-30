@@ -5,7 +5,8 @@ import { Checkbox } from '@nextui-org/react';
 import { 
   getProductCategories, 
   updateProductCategories,
-  getProductsInCategory
+  getProductsInCategory,
+  getAllProducts
 } from "../redux/reducers/product";
 
 import { RootState } from '../redux/store';
@@ -48,8 +49,14 @@ const ProductCategories = () => {
 
   useEffect(() => {
     if (diffs.hasOwnProperty("value") && diffs.value !== undefined) {
+      console.log("category checkbox changed effect");
       dispatch(getProductsInCategory(diffs));
       setDiffs({});
+    }
+
+    if (prevCategories.length === 0 && categories.length > 0) {
+      dispatch(getAllProducts(categories));
+      setPrevCategories(categories);
     }
   }, [categories])
 
@@ -57,10 +64,13 @@ const ProductCategories = () => {
     let temp = Object.assign([], categories);
     dispatch(updateProductCategories(temp.map((t: any) => {
       if (t.label === label) {
-        setDiffs({
-          value: getDiffs(t.value, fieldValue)[0],
-          isAdded: fieldValue.length > t.value.length
-        });
+        if (fieldName === "value") {
+          setDiffs({
+            value: getDiffs(t.value, fieldValue)[0],
+            isAdded: fieldValue.length > t.value.length
+          });
+        }
+        
         return {
           ...t,
           [fieldName]: fieldValue
@@ -101,7 +111,7 @@ const ProductCategories = () => {
                       strokeLinejoin="round"
                       onClick={() => { 
                         updateCategories(o.label, "isOpened", !o.isOpened); 
-                        dispatch(getProductCategories(o.id));
+                        // dispatch(getProductCategories(o.id));
                       }}
                     >
                       <use href={`/static/svg/feather-sprite.svg#${o.isOpened ? "chevron-down" : "chevron-right"}`}/>
@@ -112,7 +122,7 @@ const ProductCategories = () => {
                         style={{marginBottom: o.isOpened ? "13px" : "0px"}}
                         onClick={() => { 
                           updateCategories(o.label, "isOpened", !o.isOpened); 
-                          dispatch(getProductCategories(o.id));
+                          // dispatch(getProductCategories(o.id));
                         }}
                       >
                         {o.label}

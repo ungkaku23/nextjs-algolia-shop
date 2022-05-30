@@ -60,7 +60,9 @@ const ProductSearchHits = ({ searchState, searchResults, onClickItem }: ProductS
                       style={{
                         width: "100%",
                         height: "auto",
-                        objectFit: "contain"
+                        objectFit: "contain",
+                        maxWidth: "82.55px",
+                        margin: "auto"
                       }}
                     />
                   </Grid>

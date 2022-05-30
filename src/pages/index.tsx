@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../components/redux/store';
 import { 
-  addCart,
   updateProducts,
   updateAlogliaStorage
 } from "../components/redux/reducers/product";
@@ -17,6 +16,9 @@ import {
   Loading
 } from '@nextui-org/react';
 import $ from "jquery";
+import {
+  removeFieldOfProducts
+} from "../components/redux/helper";
 import ProductCategories from "../components/pages/product-categories";
 import ProductSearchTool from "../components/pages/product-search-tool";
 import ProductDeliveryDetails from "../components/pages/product-delivery-details";
@@ -62,14 +64,16 @@ export default function Home() {
   }, [cart]);
 
   useEffect(() => {
-    if (JSON.stringify(localProducts) !== JSON.stringify(products) && products.length !== 0) {
-      setLocalProducts(products);
-      dispatch(updateAlogliaStorage(products));
-    }
-
-    if (products.length === 0) {
-      setLocalProducts(products);
-      dispatch(updateAlogliaStorage(products));
+    if (JSON.stringify(removeFieldOfProducts(localProducts, "quantity_of_cart")) !== JSON.stringify(removeFieldOfProducts(products, "quantity_of_cart"))) {
+      console.log('products changed');
+      if (products.length !== 0) {
+        setLocalProducts(products);
+        dispatch(updateAlogliaStorage(products));
+      } else {
+        console.log("No products effected", products);
+        setLocalProducts(products);
+        dispatch(updateAlogliaStorage(products));
+      } 
     }
   }, [products]);
 
@@ -109,29 +113,39 @@ export default function Home() {
               <AnyProductSearchTool doLocalFilter={doLocalFilter} />
             </AnyInstantSearch>
             <Grid.Container className="mt-1" gap={2} justify="flex-start">
+            
               {
-                products.filter((f: any) => (f.name && f.name.includes(keyword)) || (f.description && f.description.includes(keyword)))
-                .map((p: any, pIdx: number) => {
-                  return <Grid 
-                          key={`product${pIdx}`} 
-                          xs={displayMode === "grid" ? 6 : 12} 
-                          sm={displayMode === "grid" ? 6 : 12} 
-                          md={displayMode === "grid" ? 4 : 12} 
-                          lg={displayMode === "grid" ? 4 : 12} 
-                          xl={displayMode === "grid" ? 3 : 12}
-                        >
-                          <ProductItem 
-                            info={p}
-                            onAdd={(info: any) => {
-                              console.log('clicked: ', info);
-                              dispatch(addCart(info));
-                            }} 
-                            onUpdate={(info: any) => {
-                              dispatch(updateProducts(products.map((p: any) => p.id === info.id ? info : p)));
-                            }}
-                          />
-                        </Grid>
-                })
+                products.length === 0
+                ? <div
+                    style={{
+                      width: "100%",
+                      height: "calc(100vh - 381px)",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "14px"
+                    }}
+                  >
+                    No Prodouts Found
+                  </div>
+                : products.filter((f: any) => (f.name && f.name.includes(keyword)) || (f.description && f.description.includes(keyword)))
+                  .map((p: any, pIdx: number) => {
+                    return <Grid 
+                            key={`product${pIdx}`} 
+                            xs={displayMode === "grid" ? 6 : 12} 
+                            sm={displayMode === "grid" ? 6 : 12} 
+                            md={displayMode === "grid" ? 4 : 12} 
+                            lg={displayMode === "grid" ? 4 : 12} 
+                            xl={displayMode === "grid" ? 3 : 12}
+                          >
+                            <ProductItem 
+                              info={p}
+                              onUpdate={(info: any) => {
+                                dispatch(updateProducts(products.map((p: any) => p.id === info.id ? info : p)));
+                              }}
+                            />
+                          </Grid>
+                  })
               }
             </Grid.Container>
           </div>

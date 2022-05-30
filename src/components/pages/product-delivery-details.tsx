@@ -16,8 +16,8 @@ const ProductDeliveryDetails = () => {
   const AnyText = Text as any;
 
   useEffect(() => {
-    let totalCount = cart.reduce((sum: any, o: any) => sum + o.quantity, 0);
-    let totalPrice = cart.reduce((sum: any, o: any) => sum + o.quantity * o.price, 0);
+    let totalCount = cart.reduce((sum: any, o: any) => sum + o.quantity_of_cart, 0);
+    let totalPrice = cart.reduce((sum: any, o: any) => sum + o.quantity_of_cart * o.price, 0);
 
     setCartInfo({
       totalCount,
