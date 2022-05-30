@@ -1,12 +1,27 @@
-.line-progress {
-
+.progress_container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
 }
 
 .progress_item {
   background-color: white;
+  z-index: 2;
+  padding: 5px 10px;
+}
+
+.progress_item span:first-child {
+  padding: 1px 5px;
+  border-radius: 100%;
+  border-width: 1px;
+  margin-right: 7px;
 }
 
 .progress_line {
   position: absolute;
-  height: 100%;
+  width: 100%;
+  border: solid 1px;
+  border-bottom: none;
+  top: 50%;
 }

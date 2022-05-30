@@ -44,7 +44,7 @@ export default function Home() {
 
   const displayMode = useSelector((state: RootState) => state.product.displayMode);
 
-  const [keyword, setKeyword] = useState<any>([]);
+  const [keyword, setKeyword] = useState<any>("");
 
   const loadingStatus = useSelector((state: RootState) => state.product.loadingStatus);
 
@@ -113,7 +113,6 @@ export default function Home() {
               <AnyProductSearchTool doLocalFilter={doLocalFilter} />
             </AnyInstantSearch>
             <Grid.Container className="mt-1" gap={2} justify="flex-start">
-            
               {
                 products.length === 0
                 ? <div
@@ -128,7 +127,10 @@ export default function Home() {
                   >
                     No Prodouts Found
                   </div>
-                : products.filter((f: any) => (f.name && f.name.includes(keyword)) || (f.description && f.description.includes(keyword)))
+                : products.filter((f: any) => 
+                    (f.name && f.name.toUpperCase().includes(keyword.toUpperCase())) || 
+                    (f.description && f.description.toUpperCase().includes(keyword.toUpperCase()))
+                  )
                   .map((p: any, pIdx: number) => {
                     return <Grid 
                             key={`product${pIdx}`} 

@@ -68,6 +68,10 @@ input:checked ~ .dot {
     font-size: 14px;
   }
 
+  .f-size-xs {
+    font-size: 12px;
+  }
+
   .mb-5 {
     margin-bottom: 50.5px;
   }

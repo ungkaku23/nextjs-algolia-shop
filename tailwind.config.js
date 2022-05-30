@@ -15,6 +15,12 @@ module.exports = {
       },
     },
     extend: {
+      borderColor: {
+        skin: {
+          base:  'var(--color-text-base)',
+          dark: 'var(--color-dark)'
+        }
+      },
       textColor: {
         skin: {
           base: 'var(--color-text-base)',
