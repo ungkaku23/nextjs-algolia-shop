@@ -18,7 +18,9 @@ module.exports = {
       borderColor: {
         skin: {
           base:  'var(--color-text-base)',
-          dark: 'var(--color-dark)'
+          dark: 'var(--color-dark)',
+          gray: 'var(--color-gray)',
+          darkgray: 'var(--color-darkgray)'
         }
       },
       textColor: {
@@ -27,6 +29,7 @@ module.exports = {
           inverted: 'var(--color-text-inverted)',
           muted: 'var(--color-text-muted)',
           white: 'var(--color-text-white)',
+          darkgray: 'var(--color-darkgray)'
         },
       },
       // backgrounds and buttons

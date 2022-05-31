@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import LineProgress from "../components/widget/line-progress";
+import CheckoutAddressForm from "../components/pages/checkout-address-form";
+import CheckoutOverview from "../components/pages/checkout-overview";
+import CheckoutService from "../components/pages/checkout-service";
+import CheckoutConfirmation from "../components/pages/checkout-confirmation";
 
 const CheckOut = () => {
 
-  const [stepIndex, setStepIndex] = useState<any>(1);
+  const [stepIndex, setStepIndex] = useState<any>(2);
   
   return (
     <div className="h-full py-7 bg-white dark:bg-gray-900">
@@ -21,8 +25,13 @@ const CheckOut = () => {
               onClickStep={(sIdx: any) => setStepIndex(sIdx)}
               stepIndex={stepIndex}
             />
+            { stepIndex === 1 ? <CheckoutAddressForm /> : null }
+            { stepIndex === 2 ? <CheckoutService /> : null }
+            { stepIndex === 3 ? <CheckoutConfirmation /> : null }
           </div>
-          <div className="sm:col-12 md:col-4"></div>
+          <div className="sm:col-12 md:col-4">
+            <CheckoutOverview />
+          </div>
         </div>
       </div>
     </div>

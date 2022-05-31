@@ -10,6 +10,8 @@
     --color-text-muted: #c7d2fe;
     --color-fill: #D19B22;
     --color-dark: #000000;
+    --color-gray: #c2c2c2;
+    --color-darkgray: #626262;
     --color-bgdark: #000000;
     --color-button-accent: #ffffff;
     --color-button-accent-hover: #eef2ff;
@@ -57,11 +59,11 @@ input:checked ~ .dot {
   }
 
   .f-size-lg {
-    font-size: 34px
+    font-size: 25px;
   }
 
   .f-size-md {
-    font-size: 16px
+    font-size: 20px;
   }
 
   .f-size-sm {
@@ -88,7 +90,7 @@ input:checked ~ .dot {
   margin-top: 0px !important;
 }
 
-.checkbox-group .nextui-checkbox-container {
+.nextui-checkbox-container {
   width: 18px !important;
   height: 18px !important;
   border-radius: 1px;
@@ -97,7 +99,7 @@ input:checked ~ .dot {
   border-radius: 3px !important;
 }
 
-.checkbox-group .nextui-checkbox-text {
+.nextui-checkbox-text {
   font-size: 14px !important;
   color: black !important;
 }
@@ -228,4 +230,14 @@ input:checked ~ .dot {
 
 .nextui-loading-label {
   color: #D19B22;
+}
+
+.form-group .nextui-input-main-container {
+  width: 100%;
+}
+
+.form-control .nextui-input-wrapper {
+  border-radius: 0 !important;
+  height: 30px;
+  width: 100%;
 }
