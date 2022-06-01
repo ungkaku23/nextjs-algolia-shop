@@ -100,7 +100,10 @@ const CheckoutAddressForm = () => {
           </h3>
           {
             generalFormData.map((o: any, idx: any) => (
-              <div className="sm:col-12 md:col-6 form-group mb-2">
+              <div 
+                key={`gf${idx}`}
+                className="sm:col-12 md:col-6 form-group mb-2"
+              >
                 <label className="f-size-sm font-medium">{o.label} {o.required ? "*" : ""}</label>
                 <p className="mb-1"></p>
                 <Input
@@ -132,7 +135,10 @@ const CheckoutAddressForm = () => {
           </h3>
           {
             shippingAddressFormData.map((o: any, idx: any) => (
-              <div className="sm:col-12 md:col-6 form-group mb-2">
+              <div
+                key={`saddr${idx}`}
+                className="sm:col-12 md:col-6 form-group mb-2"
+              >
                 <label className="f-size-sm font-medium">{o.label} {o.required ? "*" : ""}</label>
                 <p className="mb-1"></p>
                 <Input

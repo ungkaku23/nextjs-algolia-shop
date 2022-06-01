@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from '../redux/store';
+import Router from 'next/router'
 import { 
   Grid,
   Text,
@@ -149,6 +150,9 @@ const ProductDeliveryDetails = () => {
               css={{ 
                 height: "32px",
                 lineHeight: "32px"
+              }}
+              onClick={() => {
+                Router.push('/checkout');
               }}
             >
               Check Orders

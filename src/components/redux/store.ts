@@ -5,11 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 import themeModeReducer from './reducers/darkMode';
 import product from './reducers/product';
+import auth from './reducers/auth';
 
 export const store = configureStore({
   reducer: {
     themeMode: themeModeReducer,
-    product: product
+    product,
+    auth
   },
 })
 

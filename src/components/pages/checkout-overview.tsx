@@ -21,6 +21,7 @@ const CheckoutOverview = () => {
         {
           products.map((p: any, idx: any) => (
             <div 
+              key={`sp${idx}`}
               className="flex sm:flex-col lg:flex-row"
               style={{
                 marginBottom: "10px"

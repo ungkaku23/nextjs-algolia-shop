@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { Modal } from '@nextui-org/react';
 import LineProgress from "../components/widget/line-progress";
 import CheckoutAddressForm from "../components/pages/checkout-address-form";
 import CheckoutOverview from "../components/pages/checkout-overview";
 import CheckoutService from "../components/pages/checkout-service";
 import CheckoutConfirmation from "../components/pages/checkout-confirmation";
+import LoginBox from "../components/widget/login";
 
 const CheckOut = () => {
 
   const [stepIndex, setStepIndex] = useState<any>(2);
+
+  const AnyModalBody = Modal.Body as any;
   
   return (
     <div className="h-full py-7 bg-white dark:bg-gray-900">
@@ -34,6 +38,25 @@ const CheckOut = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        closeButton
+        aria-labelledby="login-modal"
+        open={true}
+        width="500px"
+        className="rounded-none"
+      >
+        <AnyModalBody>
+          <div
+            style={{
+              padding: "30px"
+            }}
+          >
+            <LoginBox />
+          </div>
+        </AnyModalBody>
+      </Modal>
+
     </div>
   );
 };
